@@ -1,0 +1,102 @@
+{
+  "name": "Fluxo de API",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "246ed7a7-704a-451e-979f-d91fd13f9644",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.dictionaryapi.dev/api/v2/entries/en/hello",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        0
+      ],
+      "id": "50363978-c3e4-43ea-b47b-6c9f14f59008",
+      "name": "HTTP Request",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b496d0b7-210e-4bb8-b159-4bb7b96fa867",
+              "name": "entrada",
+              "value": "={{ $json.word }}",
+              "type": "string"
+            },
+            {
+              "id": "27902e9d-4b5a-415b-8e0f-38578c354cdd",
+              "name": "sinonimo",
+              "value": "={{ $json.meanings[0].synonyms[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "55554ae2-e7b8-47ee-8ed3-dc3855cc308f",
+              "name": "Definicao",
+              "value": "={{ $json.meanings[2].definitions[0].definition }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        0
+      ],
+      "id": "f3546352-19bc-4a44-9727-d2a9820f0c54",
+      "name": "Edit Fields",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "62d599a9-c92a-4e58-9b57-cecf1d18adcd",
+  "meta": {
+    "instanceId": "fa3bc92aab209cef48cc4640d544a00ce5d28a683b697a8b547a1f29ad9e489d"
+  },
+  "id": "j2MCTqKdWlHTnUfp",
+  "tags": []
+}
